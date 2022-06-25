@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 // GraphQL imports
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema, GraphQLList, GraphQLNonNull, GraphQLEnumType } = require('graphql');
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema, GraphQLList, GraphQLNonNull, GraphQLEnumType, GraphQLError } = require('graphql');
 
 // JWT
 const jwt = require("jsonwebtoken");
@@ -118,6 +118,34 @@ const mutation = new GraphQLObjectType({
                     user.token = token;
 
                 return user.save();
+            }
+        },
+
+        loginUser: {
+            type: UserType,
+            args: {
+                email: { type: GraphQLNonNull(GraphQLString) },
+                password: { type: GraphQLNonNull(GraphQLString) },
+            },
+            resolve(parent, args) {
+                return User.findOne({ email: args.email }).then((user) => {
+                    if(user && user.password === args.password) {
+                            const token = jwt.sign(
+                                { user_id: user.id, email: user.email },
+                                process.env.SECRET,
+                                {
+                                    expiresIn: "2h",
+                                }
+                                );
+                                
+                            user.token = token;
+                
+                            return user.save();
+
+                    } else {
+                        console.log("Wrong email or password");
+                    }
+                });
             }
         },
 
