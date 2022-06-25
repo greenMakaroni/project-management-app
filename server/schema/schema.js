@@ -2,7 +2,19 @@ const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema, GraphQLList,
 // Mongoose models
 const Project = require('../models/Project');
 const Client = require('../models/Client');
+const User = require('../models/User');
 
+// user type
+const UserType = new GraphQLObjectType({
+    name: 'User',
+    fields: () => ({
+        id: { type: GraphQLID },
+        username: { type: GraphQLString },
+        email: { type: GraphQLString },
+        password: { type: GraphQLString },
+        token: { type: GraphQLString },
+    })
+})
 
 // client type
 const ClientType = new GraphQLObjectType({
