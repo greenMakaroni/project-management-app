@@ -82,6 +82,28 @@ const RootQuery = new GraphQLObjectType({
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: {
+
+        // REGISTER USER
+        registerUser: {
+            type: UserType,
+            args: {
+                username: { type: GraphQLNonNull(GraphQLString) },
+                email: { type: GraphQLNonNull(GraphQLString) },
+                password: { type: GraphQLNonNull(GraphQLString) },
+                token: { type: GraphQLNonNull(GraphQLString) },
+            },
+            resolve( parent, args ) {
+                const user = new User({
+                    username: args.username,
+                    email: args.email,
+                    password: args.password,
+                    token: args.token,
+                });
+
+                return user.save();
+            }
+        },
+
         // ADD CLIENT
         addClient: {
             type: ClientType,
