@@ -1,8 +1,16 @@
+require('dotenv').config();
+
+// GraphQL imports
 const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema, GraphQLList, GraphQLNonNull, GraphQLEnumType } = require('graphql');
-// Mongoose models
+
+// JWT
+const jwt = require("jsonwebtoken");
+
+// Mongoose models imports
 const Project = require('../models/Project');
 const Client = require('../models/Client');
 const User = require('../models/User');
+
 
 // user type
 const UserType = new GraphQLObjectType({
@@ -90,15 +98,24 @@ const mutation = new GraphQLObjectType({
                 username: { type: GraphQLNonNull(GraphQLString) },
                 email: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
-                token: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve( parent, args ) {
+
                 const user = new User({
                     username: args.username,
                     email: args.email,
-                    password: args.password,
-                    token: args.token,
+                    password: args.password
                 });
+
+                const token = jwt.sign(
+                    { user_id: user._id, email: user._email },
+                    process.env.SECRET,
+                    {
+                        expiresIn: "2h",
+                    }
+                    );
+                
+                    user.token = token;
 
                 return user.save();
             }
