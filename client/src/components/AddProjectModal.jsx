@@ -120,7 +120,6 @@ export default function AddProjectModal() {
                                         </div>
                                     </form>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>

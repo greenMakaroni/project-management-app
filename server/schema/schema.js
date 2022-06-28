@@ -115,12 +115,13 @@ const mutation = new GraphQLObjectType({
                     }
                     );
                 
-                    user.token = token;
+                user.token = token;
 
                 return user.save();
             }
         },
 
+        // LOGIN USER
         loginUser: {
             type: UserType,
             args: {
@@ -130,20 +131,18 @@ const mutation = new GraphQLObjectType({
             resolve(parent, args) {
                 return User.findOne({ email: args.email }).then((user) => {
                     if(user && user.password === args.password) {
-                            const token = jwt.sign(
-                                { user_id: user.id, email: user.email },
-                                process.env.SECRET,
-                                {
-                                    expiresIn: "2h",
-                                }
-                                );
+                        const token = jwt.sign(
+                            { user_id: user.id, email: user.email },
+                            process.env.SECRET,
+                            {
+                                expiresIn: "2h",
+                            }
+                            );
                                 
-                            user.token = token;
-                
-                            return user.save();
-
+                        user.token = token;
+                        return user.save();
                     } else {
-                        console.log("Wrong email or password");
+                        return new GraphQLError("Wrong email or password");
                     }
                 });
             }
