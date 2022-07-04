@@ -6,6 +6,9 @@ const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLSchema, GraphQLList,
 // JWT
 const jwt = require("jsonwebtoken");
 
+//Password hashing
+const bcrypt = require("bcrypt");
+
 // Mongoose models imports
 const Project = require('../models/Project');
 const Client = require('../models/Client');
@@ -100,24 +103,32 @@ const mutation = new GraphQLObjectType({
                 password: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve( parent, args ) {
+                User.findOne({ username: args.username }).then((user) => {
+                    if(user) {
+                        return new GraphQLError('user already exists...')
+                    } else {
+                        const formattedEmail = args.email.toLowerCase();
+                        const user = new User({
+                            username: args.username,
+                            email: formattedEmail,
+                            password: args.password
+                        });
 
-                const user = new User({
-                    username: args.username,
-                    email: args.email,
-                    password: args.password
+                        const token = jwt.sign(
+                            { user_id: user._id, email: user._email },
+                                process.env.SECRET,
+                                {
+                                    expiresIn: "2h",
+                                }
+                            );
+                            
+                        user.token = token;
+        
+                        return user.save();
+                    }
                 });
 
-                const token = jwt.sign(
-                    { user_id: user._id, email: user._email },
-                    process.env.SECRET,
-                    {
-                        expiresIn: "2h",
-                    }
-                    );
-                
-                user.token = token;
-
-                return user.save();
+    
             }
         },
 

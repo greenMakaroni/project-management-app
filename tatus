@@ -1,0 +1,71 @@
+[33mcommit 140b9437133ca1c9a00cdcf04083d96612a98880[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Tue Jun 28 17:59:32 2022 +0100
+
+    created login form, working on authentication
+
+[33mcommit 8ed15365493b60e2b4315d3cbaa5f9de1aac93e2[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Sat Jun 25 15:24:28 2022 +0100
+
+    add login mutation, generate new jwt on every login
+
+[33mcommit ad153b1775e71e8b367336b7ccac69a2c151c9e6[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Sat Jun 25 13:48:13 2022 +0100
+
+    generate jwt on register
+
+[33mcommit 7064bc37c553d488cf28afafb8ad2d16e7b9d8ab[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Sat Jun 25 13:07:56 2022 +0100
+
+     add registerUser mutation
+
+[33mcommit e28cf7d6d19210c5305e2f1c660dc3fd2cdceaba[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Sat Jun 25 12:54:08 2022 +0100
+
+    add user moongose model, add user graphQL type to schema, add unique prop to Client email moongose model to avoid duplicate emails in DB
+
+[33mcommit ec0dc5b6a9b6ac0a57f00e14de4c12d0d316245b[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Wed Jun 22 23:26:46 2022 +0100
+
+    added add/update/delete project, modify schema to delete projects associated with clients on client delete, project basic funcionality finished
+
+[33mcommit 753ecbc0aef6d50ed7534deabda847eb83efdb72[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Mon Jun 20 22:51:41 2022 +0100
+
+    add Projects and AddClientModal components, setup pages and routing, add another project query and client mutations,
+
+[33mcommit a9c97832bea77e6df7e41530bef83468c27a9769[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Mon Jun 20 18:32:23 2022 +0100
+
+    get clients, delete client, use cache to reload after delete
+
+[33mcommit 60398589b0e1b78e1eaee499516e186bd5f4f8b7[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Mon Jun 20 17:39:44 2022 +0100
+
+    Setup cors in server, start working on client
+
+[33mcommit 71e478e753985baae22bf226f277f5fa723d1191[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Sat Jun 18 13:01:11 2022 +0100
+
+    basic functionality finish
+
+[33mcommit 5fdf3c97e1f9564cfa7f0188ee63278cc61210e7[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Sat Jun 18 12:45:58 2022 +0100
+
+    add project mutations
+
+[33mcommit 6c79d18cda896474a6402bae17a6bb56d1817cfd[m
+Author: greenMakaroni <mrtn.dawid@gmail.com>
+Date:   Fri Jun 17 22:32:47 2022 +0100
+
+    manage

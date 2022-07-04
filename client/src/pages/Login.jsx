@@ -12,8 +12,6 @@ export default function Login() {
         } else {
             return alert('Login success');
         }
-
-        
     }
 
   return (
