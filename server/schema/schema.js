@@ -102,33 +102,29 @@ const mutation = new GraphQLObjectType({
                 email: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve( parent, args ) {
-                User.findOne({ username: args.username }).then((user) => {
-                    if(user) {
-                        return new GraphQLError('user already exists...')
-                    } else {
-                        const formattedEmail = args.email.toLowerCase();
-                        const user = new User({
-                            username: args.username,
-                            email: formattedEmail,
-                            password: args.password
-                        });
+            resolve: async ( parent, args ) => {
+                const foundUser = await User.findOne({ username: args.username });
+                
+                if(foundUser) {
+                    return new GraphQLError('user already exists...')
+                } 
 
-                        const token = jwt.sign(
-                            { user_id: user._id, email: user._email },
-                                process.env.SECRET,
-                                {
-                                    expiresIn: "2h",
-                                }
-                            );
-                            
-                        user.token = token;
-        
-                        return user.save();
-                    }
+                const user = new User({
+                    username: args.username,
                 });
-
-    
+                const formattedEmail = args.email.toLowerCase();
+                user.email = formattedEmail;
+                await bcrypt.hash(args.password, 11).then((hash) => { user.password = hash });
+                const token = jwt.sign(
+                    { user_id: user._id, email: user._email },
+                        process.env.SECRET,
+                        {
+                             expiresIn: "2h",
+                        }
+                    );        
+                user.token = token;
+        
+                return user.save(); 
             }
         },
 
@@ -139,23 +135,27 @@ const mutation = new GraphQLObjectType({
                 email: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
             },
-            resolve(parent, args) {
-                return User.findOne({ email: args.email }).then((user) => {
-                    if(user && user.password === args.password) {
+            resolve: async (parent, args) => {
+                const user = await User.findOne({ email: args.email });
+                if(user) {
+                     const isValid = await bcrypt.compare(args.password, user.password);
+                     if(isValid) {
                         const token = jwt.sign(
                             { user_id: user.id, email: user.email },
-                            process.env.SECRET,
+                                process.env.SECRET,
                             {
                                 expiresIn: "2h",
                             }
                             );
-                                
+                                        
                         user.token = token;
                         return user.save();
-                    } else {
-                        return new GraphQLError("Wrong email or password");
-                    }
-                });
+                     } else {
+                        return new GraphQLError("wrong username or password...")
+                     }
+                } else {
+                    return new GraphQLError("wrong username or password...")
+                }
             }
         },
 
