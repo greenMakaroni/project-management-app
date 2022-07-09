@@ -4,15 +4,10 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Project from './pages/Project';
-import { ApolloProvider } from '@apollo/client';
-import client from './apolloClient'
-import { AuthProvider } from './context/authContext'
 
 function App() {
   return (
     <>
-    <AuthProvider>
-      <ApolloProvider client={ client }>
         <Router>
           <Header /> 
           <div className="container">
@@ -23,10 +18,7 @@ function App() {
             </Routes>
           </div>
         </Router>
-      </ApolloProvider>
-    </AuthProvider>
     </>
-
   );
 }
 
