@@ -4,6 +4,7 @@ import AddClientModal from '../components/AddClientModal';
 import AddProjectModal from '../components/AddProjectModal';
 
 export default function Home() {
+  
   return (
     <>
         <div className="d-flex justify-content-between">
