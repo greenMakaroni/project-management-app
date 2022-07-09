@@ -6,10 +6,12 @@ import NotFound from './pages/NotFound';
 import Project from './pages/Project';
 import { ApolloProvider } from '@apollo/client';
 import client from './apolloClient'
+import { AuthProvider } from './context/authContext'
 
 function App() {
   return (
     <>
+    <AuthProvider>
       <ApolloProvider client={ client }>
         <Router>
           <Header /> 
@@ -22,6 +24,7 @@ function App() {
           </div>
         </Router>
       </ApolloProvider>
+    </AuthProvider>
     </>
 
   );
