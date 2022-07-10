@@ -12,9 +12,8 @@ export default function Login() {
 
     const [loginUser] = useMutation(LOGIN_USER, {
         variables: {email: email, password: password},
-        update(proxy, { data: {loginUser: userData}}) {
+        update(_, { data: {loginUser: userData}}) {
             context.login(userData);
-            console.log(userData);
         },
         onError({ graphQLErrors }) {
             setErrors(graphQLErrors);
