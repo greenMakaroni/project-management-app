@@ -1,22 +1,35 @@
-import React, { useState } from 'react'
-import { authContext } from '../context/authContext'
+import React, { useState, useContext } from 'react'
+import { AuthContext } from '../context/authContext'
 import { useMutation } from '@apollo/client'
 import { LOGIN_USER } from '../mutations/userMutations'
 export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState([]);
 
-    // const [loginUser] = useMutation(LOGIN_USER, {
-    //     variables: {email: email, password: password},
-    // })
+    const context = useContext(AuthContext);
+
+    const [loginUser] = useMutation(LOGIN_USER, {
+        variables: {email: email, password: password},
+        update(proxy, { data: {loginUser: userData}}) {
+            context.login(userData);
+            console.log(userData);
+        },
+        onError({ graphQLErrors }) {
+            setErrors(graphQLErrors);
+        }
+    })
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if(email === '' || !email.includes('@') || password === '' || password.length < 8) {
+        if(email === '' || !email.includes('@') || password === '') {
             return alert('Please fill in the form');
         } else {
-            return alert('Login success');
+            loginUser(email, password);
+            setEmail('');
+            setPassword('');
+            setErrors([]);
         }
     }
 

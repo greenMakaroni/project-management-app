@@ -12,7 +12,7 @@ function App() {
           <Header /> 
           <div className="container">
             <Routes>
-              <Route path='/' element={ <Home /> } />
+              <Route path='/' element={ <Login /> } />
               <Route path='/project/:id' element={ <Project /> } />
               <Route path='*' element={ <NotFound /> } />
             </Routes>
