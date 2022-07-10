@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
-
+import { authContext } from '../context/authContext'
+import { useMutation } from '@apollo/client'
+import { LOGIN_USER } from '../mutations/userMutations'
 export default function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    // const [loginUser] = useMutation(LOGIN_USER, {
+    //     variables: {email: email, password: password},
+    // })
 
     const onSubmit = (e) => {
         e.preventDefault();
